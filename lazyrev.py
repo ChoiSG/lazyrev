@@ -44,7 +44,7 @@ def revType(payload):
         [optional] A netcat listener with sh to full pty instruction 
 """
 @click.command()
-@click.option('--types','-t',help='type of reverse shell payload (python, ruby, php, bash, etc...)', required=True)
+@click.option('--types','-t',help='type of reverse shell payload (python, bash, perl, php, ruby)', required=True)
 @click.option('--listener', '-l', help='Opens a netcat listener', is_flag=True)
 @click.argument('ip', required=True)
 @click.argument('port', required=True)
