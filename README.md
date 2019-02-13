@@ -4,11 +4,11 @@ with user's IP and port.
 
 
 # Usage
-`git clone https://github.com/ChoiSG/lazyrev.git`
-`python3 lazyrev.py -t|--type python|bash|perl|php|ruby <ip> <port>`
+`git clone https://github.com/ChoiSG/lazyrev.git`  
+`python3 lazyrev.py -t|--type python|bash|perl|php|ruby <ip> <port>`  
 
 In order to automatically open a netcat listener with your ip/port, simply 
-add a `-l` or a `--listener` flag at the end. 
+add a `-l` or a `--listener` flag at the end.  
 `python3 lazyrev.py -t|--type python|bash|perl|php|ruby <ip> <port> -l|--listener`
 
 # TODO 
